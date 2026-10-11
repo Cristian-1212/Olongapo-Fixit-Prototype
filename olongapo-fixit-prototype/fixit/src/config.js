@@ -1,0 +1,6 @@
+'use strict';
+const CATS=['Broken Streetlight','Pothole','Damaged Road','Garbage Problem','Water Leak','Fallen Tree','Flooding','Blocked Drainage','Damaged Sidewalk','Damaged Public Facility','Road Obstruction','Other'];
+const KW={'Broken Streetlight':['light','lamp','bulb','dark'],'Pothole':['pothole','hole','road','crater'],'Damaged Road':['road','crack','damage','asphalt'],'Garbage Problem':['garbage','trash','waste','basura'],'Water Leak':['water','leak','pipe'],'Fallen Tree':['tree','branch','fallen'],'Flooding':['flood','water','rain'],'Blocked Drainage':['drain','canal','clog','block'],'Damaged Sidewalk':['sidewalk','walkway','pavement'],'Damaged Public Facility':['facility','court','park','building','damage'],'Road Obstruction':['block','obstruct','road','vehicle']};
+const MSG={VERIFIED:'Your report has been verified.',ASSIGNED:'Your report has been assigned to the appropriate office.','IN PROGRESS':'Action has started on your reported concern.',RESOLVED:'Your reported concern has been marked as resolved.',REJECTED:'Your report was reviewed and could not be accepted.'};
+const OPEN=['SUBMITTED','UNDER REVIEW','VERIFIED','ASSIGNED','IN PROGRESS'],WORKABLE=['VERIFIED','ASSIGNED','IN PROGRESS'];
+module.exports={CATS,KW,MSG,OPEN,WORKABLE};

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olongapo FixIt – Report. Monitor. Improve Our Community.</title>
+<meta name="description" content="Report public problems in Olongapo City and track them from submission to resolution.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A0%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div id="shell">
+  <header class="top">
+    <button class="burger" aria-label="Open menu" onclick="document.body.classList.toggle('menu')">☰</button>
+    <a class="brand" href="#/">🛠 Olongapo <b>FixIt</b></a>
+    <nav id="pnav" class="pnav" aria-label="Main"></nav>
+    <div id="who" class="who"></div>
+  </header>
+  <aside id="side" class="side" aria-label="Menu"></aside>
+  <div class="content">
+    <main id="app" class="page"></main>
+    <footer>© Olongapo FixIt · A community reporting platform for Olongapo City</footer>
+  </div>
+</div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="/js/core.js"></script>
+<script src="/js/public.js"></script>
+<script src="/js/reports.js"></script>
+<script src="/js/admin.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>

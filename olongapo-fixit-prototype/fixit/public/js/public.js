@@ -1,0 +1,24 @@
+/* Public pages: home, track, community, login, register */
+function home(){const st=P.stats||{};
+ $('app').innerHTML=`<section class="hero"><h1>Olongapo FixIt</h1><h3>Report. Monitor. Improve Our Community.</h3><p>An online platform that helps Olongapo City residents report public problems and monitor their progress from submission to resolution.</p>
+ <a class="btn" href="#/new">Report a Problem</a><a class="btn o" href="#/track">Track a Report</a>${ME?'<a class="btn o" href="#/dash">My Dashboard</a>':'<a class="btn o" href="#/login">Login</a><a class="btn o" href="#/register">Register</a>'}</section>
+ <div class="grid">${[['Total Reports',st.total],['Resolved',st.resolved],['Active',st.active],['Barangays Covered',st.barangays]].map(x=>`<div class="card stat"><b>${x[1]??0}</b><span>${x[0]}</span></div>`).join('')}</div>
+ <div class="card"><h3>How it works</h3><div class="steps">${['Report a Problem','AI Performs Initial Verification','Officials Review','Report is Assigned','Action is Taken','Problem is Resolved'].map((t,i)=>`<div class="step"><i>${i+1}</i><div>${t}</div></div>`).join('')}</div></div>
+ <div class="card"><h3>What you can report</h3><div class="chips">${CATS.map(c=>`<span class="chip">${esc(c)}</span>`).join('')}</div></div>`}
+function track(){$('app').innerHTML=`<div class="card authbox" data-enter="doTrack" style="max-width:640px"><h2>Track a Report</h2><p class="mu">Enter the report ID you received when you submitted (example: OF-2026-000001).</p><input id="tc" placeholder="OF-2026-000001"><button class="btn" onclick="doTrack()">Track</button><div id="tr"></div></div>`}
+async function doTrack(){const c=$('tc').value.trim();await guarded(async()=>{const r=await api('track?code='+encodeURIComponent(c));
+ $('tr').innerHTML=r.found?`<h3>${esc(r.code)}</h3><p>${esc(r.cat)} · ${esc(r.brgy)} · ${esc(fd(r.created))}</p>${badge(r.status)}<ul class="tl">${r.hist.map(h=>`<li><b>${esc(h.s)}</b> <small>${esc(fd(h.at))}</small></li>`).join('')}</ul>${r.resolution?'<p class="ok">Resolution: '+esc(r.resolution)+'</p>':''}`:'<p class="err">No report found with that ID.</p>'},'tr')}
+function community(){$('app').innerHTML=`<div class="card"><h2>Community Reports</h2><div class="tw"><table><tr><th>Category</th><th>Barangay</th><th>General location</th><th>Status</th><th>Date</th></tr>${P.list.map(r=>`<tr><td>${esc(r.cat)}</td><td>${esc(r.brgy)}</td><td>Brgy. ${esc(r.brgy)}</td><td>${badge(r.status)}</td><td>${esc(fdate(r.date))}</td></tr>`).join('')}</table></div></div>`}
+const DEMOS=[['Super Admin','admin@fixit.ph','admin123'],['Barangay Official','captain@fixit.ph','demo123'],['City Official','engineer@fixit.ph','demo123'],['Resident','resident@fixit.ph','demo123']];
+function fillDemo(e,p){$('le').value=e;$('lp').value=p;$('lp').focus()}
+function login(){$('app').innerHTML=`<div class="authbox card" data-enter="doLogin"><h2>Welcome back</h2><p class="mu">Log in to report problems or manage reports.</p>
+ <label for="le">Email</label><input id="le" type="email" autocomplete="username"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password">
+ <button class="btn block" onclick="doLogin()">Log in</button><p id="lm" class="err" role="alert"></p><p class="mu">New here? <a href="#/register">Create an account</a></p>
+ <details class="demo"><summary>Try a demo account</summary><div class="chips">${DEMOS.map(d=>`<button class="chip" onclick="fillDemo('${d[1]}','${d[2]}')">${d[0]}</button>`).join('')}</div></details></div>`;$('le').focus()}
+async function doLogin(){$('lm').textContent='';await guarded(async()=>{await api('login',{email:$('le').value,password:$('lp').value});toast('Welcome back!','ok');goto('#/dash')},'lm')}
+function register(){$('app').innerHTML=`<div class="authbox card" data-enter="doReg"><h2>Create your account</h2><p class="mu">Residents can report problems and track their progress.</p>
+ <label for="rn">Full name</label><input id="rn" autocomplete="name"><label for="re">Email</label><input id="re" type="email" autocomplete="email"><label for="rph">Phone (optional)</label><input id="rph" type="tel" autocomplete="tel">
+ <label for="rp">Password (at least 6 characters)</label><input id="rp" type="password" autocomplete="new-password"><label for="rc">Confirm password</label><input id="rc" type="password" autocomplete="new-password">
+ <button class="btn block" onclick="doReg()">Create account</button><p id="rm" class="err" role="alert"></p><p class="mu">Already registered? <a href="#/login">Log in</a></p></div>`;$('rn').focus()}
+async function doReg(){const m=$('rm');m.textContent='';if($('rp').value!==$('rc').value){m.textContent='Passwords do not match.';return}
+ await guarded(async()=>{await api('register',{name:$('rn').value,email:$('re').value,phone:$('rph').value,password:$('rp').value});toast('Account created. Welcome!','ok');goto('#/dash')},'rm')}
